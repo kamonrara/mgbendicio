@@ -1,11 +1,13 @@
-import { Button, CircularProgress, Container, Grid, Grow, Paper, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Link, Grid, Grow, Paper, Typography } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessages } from '../../actions/chat/message';
+import { getConversation } from '../../actions/chat/conversation';
 import { setConversationId, setConversationWith } from '../../actions/chat/conversation';
 import io from 'socket.io-client';
+import MessageIcon from '@material-ui/icons/Message';
 let socket;
 const ENDPOINT = 'localhost:5555';
 socket = io(ENDPOINT)
@@ -47,15 +49,13 @@ const useStyles = makeStyles({
   
   });
 
-
-
-
 const Conversation = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const conversation = useSelector((state) => state.conversations);
  
     const user = JSON.parse(localStorage.getItem('profile'));
+    const userId = user?.result?._id;
 
     console.log('[CONVERSATION] conversation:', conversation);
     const [conversationData, setConversationData] = useState({ conversation_id: '', conversation_name: ''});
@@ -69,23 +69,34 @@ const Conversation = () => {
 
     },[conversationData]);
 
-    return(
-           !conversation?.length ? <CircularProgress /> : (
-              <Grow in>
-                    <Container>
-                      <Grid container className={classes.mainContainer} component={Paper} >
-                      <Typography> INBOX  </Typography> 
-                          {conversation.map((conversation) => (
-                            <>
-                              <Button  variant="contained" color="primary" onClick={() => setConversationData({conversation_id: conversation._id, conversation_name: conversation.name})}>
-                                 <Typography> {conversation.name}  </Typography>
-                              </Button>  
-                            </>
-                          ))}            
-                      </Grid> 
-                  </Container>
-              </Grow>)
+    //This useEffect will run only once for initial process of conversation-message db insertion.
+   
+    const [updatingFlag, setUpdatingFlag] = useState(0);
 
+    socket.on('updateConversation', (data) => {
+      console.log('[kamon-CONVERSATION] socket.on.updateMessage data:', data);
+      setUpdatingFlag(data.updatingFlag);
+    })
+
+    useEffect(() => {
+        dispatch(getConversation(userId));
+    },[updatingFlag]);
+
+    return(
+           !conversation?.length ? <CircularProgress /> : (       
+                  <Grid container className={classes.mainContainer} component={Paper} >
+                    <Typography> INBOX </Typography> 
+                        {conversation.map((conversation) => (
+                          <Grid container item lg={12} md={12} sm={12}>
+                                     
+                               <MessageIcon/> 
+                               <Link component="button" onClick={() =>setConversationData({conversation_id: conversation._id, conversation_name: conversation.name})}>
+                               <Typography > {conversation.name}</Typography>
+                              </Link>
+                          </Grid> 
+
+                        ))}            
+                  </Grid>)
     );
 };
 

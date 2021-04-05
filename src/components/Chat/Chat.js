@@ -41,19 +41,13 @@ const useStyles = makeStyles({
   },
 
   sendButton : {
-    // margin: 0,
-    // top: 'auto',
-    // right: 20,
-    // bottom: 20,
-    // left: 'auto',
-    // position: 'fixed',
-
     display: 'flex',
     justifyContent: 'flex-end',
   },
   messageBody: {
     padding: 10,
     height: 666,
+    paddingBottom: 90
   
   },
   userList: {
@@ -111,7 +105,7 @@ const Chat = () => {
 
             dispatch(createMessage({...messsageData, owner: userId, conversationId: conversation_data?.conversation_id}));
 
-            await socket.emit('sendMessage', { conversationId: conversation_data.conversation_id }, () => {
+            await socket.emit('sendMessage', { type: 'message' }, () => {
                     console.log('[CHAT]: socket.io. emit/sendMessage');
               });
 
@@ -121,8 +115,8 @@ const Chat = () => {
              {...conAndMsgData,  
 
                 conversation: {
-                  participants: [userId, conversation_data?.conversation_with?._id], 
-                  name: `${user?.result?.firstname} / ${conversation_data?.conversation_with?.name}`
+                  participants: [userId, conversation_data?.conversation_with?.id], 
+                  name: `${conversation_data?.conversation_with?.name}`
                 },
                 messages: {
                     owner: userId,
@@ -131,6 +125,11 @@ const Chat = () => {
              }
             
             ));
+
+              // create logic: add send_message_type: there are 2 types:
+              // 1: update conversation and message 
+              // 2: message only
+            await socket.emit('sendMessage', {type: 'conversation-message'});
 
          } else {
            console.log('[CHAT]: do nothing...')

@@ -27,8 +27,6 @@ const UserList = () => {
         dispatch(getUsers());
     },[]);
 
-
-
     const [participants, setParticipants] = useState({ name: '', id: ''});
     console.log('[USERLIST] participants: ', participants);
     console.log('[USERLIST] userlist: ', userlist);

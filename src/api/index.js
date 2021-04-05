@@ -1,6 +1,9 @@
 import axios from 'axios';
+ 
+//cloud
+ //const API = axios.create({ baseURL: 'https://kamonrarara.herokuapp.com' });
 
-// const API = axios.create({ baseURL: 'https://memories-backend.zeet.app' });
+//local
 const API = axios.create({ baseURL: 'http://localhost:5555' });
 
 API.interceptors.request.use((req) => {

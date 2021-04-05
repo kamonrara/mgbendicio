@@ -19,9 +19,6 @@ const App = () => (
         <Route path="/chat" exact component={Chat} />
         <Route path="/auth" exact component={Auth} />
         <Route path="/user/profile" exact component={Profile}/>
-
-     
-
       </Switch>
     </Container>
   </BrowserRouter>

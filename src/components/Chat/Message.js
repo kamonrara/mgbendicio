@@ -5,6 +5,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import { getMessages } from '../../actions/chat/message';
+import Messages from './Messages.js';
+
+import ReactScrollableFeed from 'react-scrollable-feed';
+
 let socket;
 
 const useStyles = makeStyles({
@@ -21,13 +25,14 @@ const useStyles = makeStyles({
     borderLeft500: {
       borderLeft: '1px solid #e0e0e0'
     },
-    borderRight500: {
-        borderRight: '1px solid #e0e0e0', 
+    messagesContainer: {
+      //  display: "flex",
+      //  justifyContent: "flex-end"
    
     },
     messageArea: {
       height: '70vh',
-      overflowY: 'auto'
+     // overflowY: 'auto'
     },
     gridList: {
       width: 300,
@@ -36,7 +41,7 @@ const useStyles = makeStyles({
     mainContainer: {
       display: 'flex',
       height: '53vh',
-      overflowY: 'auto',
+      //overflowY: 'auto',
       backgroundColor: '#fda01d',
      // scrollIntoView: 'end'
 
@@ -48,7 +53,12 @@ const useStyles = makeStyles({
     messsages: {
       height: 600,
       width: 400
+    },
+    scrollFeed: {
+      height: 200,
+      backgroundColor: '#e0e0e0'
     }
+
   
   });
 
@@ -60,28 +70,29 @@ const Message = () => {
     const conversation_data = useSelector((state) => state.conversation_data);
     const ENDPOINT = 'localhost:5555';
 
-    console.log('[MESSAGES]: conversation_id', conversation_data.conversation_id);
+    console.log('[MESSAGE]: conversation_id', conversation_data.conversation_id);
 
     useEffect(() => {
       
-    console.log('[MESSAGES]: useEffect 1', conversation_data.conversation_id, '\n',conversation_data.conversation_name);
+    console.log('[MESSAGE]: useEffect 1', conversation_data.conversation_id, '\n',conversation_data.conversation_name);
 
         if(conversation_data.conversation_id === undefined || conversation_data.conversation_id.length === 0) {
            //do nothing....
         }
         else {
           dispatch(getMessages(conversation_data.conversation_id));
-          scrollToBottom();
+
         }
 
     },[]);
 
   
-    const [kamon, setKamon] = useState(0);
+    const [receiveMessage, setReceiveMessage] = useState(0);
 
     socket = io(ENDPOINT);
     socket.on('updateMessage', (data) => {
-      setKamon(data.kamon);
+      console.log('kamon-[MESSAGE] socket.on.updateMessage data:', data);
+      setReceiveMessage(data.updatingFlag);
     });
 
     useEffect(() => {
@@ -90,37 +101,28 @@ const Message = () => {
       }
       else {
        dispatch(getMessages(conversation_data.conversation_id));
-       scrollToBottom();
+     
       }
 
-    },[kamon])
+    },[receiveMessage])
 
-    const messagesEndRef = useRef(null)
-
-    const scrollToBottom = () => {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-
-    }
-
+ 
     return(
         <>
-        <Typography> 
-          CONVERSATION WITH : &nbsp;&nbsp; {!conversation_data?.conversation_with?.name?.length ? conversation_data.conversation_name :  conversation_data?.conversation_with?.name}
-        </Typography>
-         {!messages?.length ? <CircularProgress /> : (
-   
-               <Grid container className={classes.mainContainer} component={Paper} >
+          <Typography> 
+            CONVERSATION WITH : &nbsp;&nbsp; {!conversation_data?.conversation_with?.name?.length ? conversation_data.conversation_name :  conversation_data?.conversation_with?.name}
+          </Typography>
+
+          {!messages?.length ? <CircularProgress /> : (
+              <ReactScrollableFeed className={classes.scrollFeed}>
+                    {messages.map((message) => (
+                        <Grid  key={message._id} container item xs={12} sm={12} md={12}>
+                            <Messages message={message}/>
+                        </Grid>
+                    ))}          
+                </ReactScrollableFeed>
+          )}
           
-                   {messages.map((message) => (
-                       <Grid className={classes.borderRight500}key={message._id} container item xs={12} sm={12} md={12}>
-                            &nbsp;&nbsp;
-                 
-                           <Typography>{message.content}</Typography> 
-                       </Grid>
-                   ))}    
-               <div ref={messagesEndRef} />
-               </Grid> 
-      )}
         </>
     );
 }
