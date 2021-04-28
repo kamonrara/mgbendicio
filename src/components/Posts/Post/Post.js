@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { likePost, deletePost, getPost } from '../../../actions/posts';
 import useStyles from './styles';
-import io from 'socket.io-client';
 
-let socket;
-const ENDPOINT = 'localhost:5555';
+// import io from 'socket.io-client';
+
+// let socket;
+// const ENDPOINT = 'localhost:5555';
 
 const Post = ({ post, setCurrentId }) => {
 

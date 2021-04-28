@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Grid, Paper, Typography } from '@material-ui/core';
+import { CircularProgress, Grid, Paper, Typography, Link } from '@material-ui/core';
 import { getUsers } from '../../actions/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,12 +8,21 @@ import {  resetMessages } from '../../actions/chat/message'
 
 const useStyles = makeStyles({
     mainContainer: {
-     // height: '53vh',
+      display: 'flex',
+      flexDirection: 'column',
       overflowY: 'auto',
       backgroundColor: '#fda01d',
-      align: 'left'
+   
+      padding: '11px 11px 11px 11px'
     },
-  
+    userLink: {
+        display: 'flex'
+    },
+    Label: {
+        display: 'flex',
+        fontWeight: 'bold'
+    }
+
   });
 
 
@@ -22,14 +31,14 @@ const UserList = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const userlist = useSelector((state) => state.users)
+    const conversation_data = useSelector(state => state.conversation_data)
 
     useEffect(() => {
         dispatch(getUsers());
     },[]);
 
     const [participants, setParticipants] = useState({ name: '', id: ''});
-    console.log('[USERLIST] participants: ', participants);
-    console.log('[USERLIST] userlist: ', userlist);
+
 
      useEffect(() => {
          if(participants.length !== 0 || participants !== undefined) {
@@ -41,18 +50,14 @@ const UserList = () => {
 
      },[participants])
 
-    return (
-         
+    return (        
         !userlist?.length ? <CircularProgress /> : (                        
                     <Grid container className={classes.mainContainer} component={Paper} >
-                        
-                        <Typography> USER LIST  </Typography> 
+                        <Typography className={classes.Label}>List of users</Typography> 
                         {userlist.map((user) => (
-                         <Grid item lg={12} md={12} sm={12}>
-                            <Button  variant="contained" color="primary" fullWidth onClick={() => setParticipants({name: user.firstname, id: user._id})}>
-                               <Typography> {user.firstname}  </Typography>                     
-                            </Button>  
-                         </Grid>
+                            <Link  className={classes.userLink} component="button"  onClick={() => setParticipants({name: user.firstname, id: user._id})}>
+                               <Typography > { user.firstname }  </Typography>                     
+                            </Link>                    
                         ))}            
                     </Grid>              
             )

@@ -1,6 +1,7 @@
 .messageBox {
     /* background: #2534da; */
-    border-radius: 20px;
+    border-radius: 300px;
+
     padding: 5px 20px;
     color: white;
     display: inline-block;

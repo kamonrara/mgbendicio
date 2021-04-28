@@ -5,7 +5,6 @@ import FileBase from 'react-file-base64';
 import { createPost, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 
-
 const Form = ({ currentId, setCurrentId }) => {
 
   const [postData, setPostData] = useState({ title: '', owner: '', message: '', tags: '', selectedFile: '' });
@@ -13,10 +12,6 @@ const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
-
-  console.log('[FORM]');
-  console.log('-[FORM]/post/useSelector-redux: ', post);  
-  console.log('-[FORM]/postData/useState: ', postData);
 
   useEffect(() => {
     if (post) setPostData(post);

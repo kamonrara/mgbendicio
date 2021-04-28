@@ -3,11 +3,8 @@ import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
-
-// import memories from '../../images/memories.png';
 import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
-import Chat from '../Chat/Chat';
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -16,13 +13,9 @@ const Navbar = () => {
   const history = useHistory();
   const classes = useStyles();
 
-  //console.log('laman ng user: ', user?.result?._id);
-
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
-
     history.push('/auth');
-
     setUser(null);
   };
 
@@ -31,7 +24,6 @@ const Navbar = () => {
 
     if (token) {
       const decodedToken = decode(token);
-
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
 
@@ -40,30 +32,34 @@ const Navbar = () => {
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Home</Typography> &nbsp;
 
-        {(user?.result)  && (
-          <div>
-              <Typography component={Link} to="/user/profile" className={classes.heading} variant="h2" align="center">Profile</Typography>
-              &nbsp;
-              <Typography component={Link} to="/chat" className={classes.heading} variant="h2" align="center">Messenger</Typography>
-          </div>
-        )}
+        <div className={classes.leftDiv}>
+          <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Home</Typography> &nbsp;
+              {(user?.result)  && (
+                <div>
+                    <Typography component={Link} to="/user/profile" className={classes.heading} variant="h2" align="center">Profile</Typography>
+                    &nbsp;
+                    <Typography component={Link} to="/chat" className={classes.heading} variant="h2" align="center">Messenger</Typography>
+                </div>
+              )}
+        </div>
 
-      </div>
+        <div className={classes.rightDiv}>
+            <Toolbar>
+                {user?.result ? 
+                (
+                  <div className={classes.profile}>
+                    <Avatar className={classes.avatar} alt={user?.result.firstname} src={user?.result.imageUrl}>{user?.result.firstname.charAt(0)}</Avatar>
+                    <Typography className={classes.userName} variant="h6">{user?.result.firstname}</Typography>
+                    <Button variant="contained"  color="secondary" onClick={logout}>Logout</Button>
+                  </div>
+                ) : 
+                (
+                  <Button component={Link} to="/auth" variant="contained" color="primary">Sign In</Button>
+                )}
+          </Toolbar>
+        </div>
 
-      <Toolbar className={classes.toolbar}>
-        {user?.result ? (
-          <div className={classes.profile}>
-            <Avatar className={classes.purple} alt={user?.result.firstname} src={user?.result.imageUrl}>{user?.result.firstname.charAt(0)}</Avatar>
-            <Typography className={classes.userName} variant="h6">{user?.result.firstname}</Typography>
-            <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
-          </div>
-        ) : (
-          <Button component={Link} to="/auth" variant="contained" color="primary">Sign In</Button>
-        )}
-      </Toolbar>
     </AppBar>
   );
 };
