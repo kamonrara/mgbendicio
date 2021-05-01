@@ -1,5 +1,16 @@
-import { FETCH_CONVERSATION, SET_CONVERSATION_ID, SET_CONVERSATION_WITH, CREATE_CONVERSATION, CREATE_CONVERSATION_AND_MESSAGE } from '../../constants/actionTypes';
+import { FETCH_CONVERSATION, SET_CONVERSATION_ID, SET_CONVERSATION_WITH, CREATE_CONVERSATION, CREATE_CONVERSATION_AND_MESSAGE, RESET_CONVERSATION_DATA } from '../../constants/actionTypes';
 import * as api from '../../api/index';
+
+export const resetConversationData  = () => async dispatch => {
+    try {
+
+        dispatch({ type: RESET_CONVERSATION_DATA});
+
+    } catch (error) {
+        console.log(error);
+    }
+
+};
 
 export const getConversation = (userId) => async (dispatch) => {
     

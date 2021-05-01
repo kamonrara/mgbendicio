@@ -48,10 +48,16 @@ const Input = () => {
 
      const [myMessage, setMyMessage] = useState('');
      const conversationId = conversation_data?.conversation_id; 
+
+     const clear = () => {
+      setMyMessage('');
+     }
   
     const handleMessage = async message => {
         if(conversation_data.conversation_with === undefined) {
-          setMessageData({ ...messsageData, content: message })       
+          setMessageData({ ...messsageData, content: message })     
+          setMyMessage(prev => message);
+          console.log('myMessagemyMessagemyMessage ', myMessage);
         } else {
           setMyMessage(message);
       
@@ -60,6 +66,7 @@ const Input = () => {
 
       const handleSubmit =  (e) => {
         e.preventDefault();
+        clear();
 
        if(conversation_data?.conversation_with === undefined) {
 
@@ -103,6 +110,7 @@ const Input = () => {
     const handleKeyPress = () => {
 
       //when user is typing store the number of keypress in let as counter and use that let on logics ahead
+      //avoid the enter key here
        setKeyPressCount(prev => prev + 1);
 
       console.log('[INPUT] handleKeyPress: ', keyPressCount);
@@ -124,6 +132,7 @@ const Input = () => {
                     fullWidth multiline rows={2} 
                     onChange={(e) => handleMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
+                    value={myMessage}
 
                 />
 

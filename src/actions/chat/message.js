@@ -1,12 +1,12 @@
 import { FETCH_MESSAGES, CREATE_MESSAGE, RESET_MESSAGES } from '../../constants/actionTypes';
 import * as api from '../../api/index';
-import history from '../../history';
+// import history from '../../history';
 
 export const getMessages = conversationId => async dispatch => {
-    console.log('conversationId:::::', conversationId)
+
     try {
         const { data } = await api.fetchMessages(conversationId);
-        console.log('redux-action-chat-message-getMessages-data:  ', data);
+
         dispatch({ type: FETCH_MESSAGES, payload: data});
        // history.push('/chat');
 
@@ -25,7 +25,7 @@ export const createMessage = message => async dispatch => {
     }
 };
 
-export const resetMessages = message => async dispatch => {
+export const resetMessages = () => async dispatch => {
     try {
 
         dispatch({ type: RESET_MESSAGES});

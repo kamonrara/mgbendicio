@@ -3,7 +3,7 @@ import { CircularProgress, Grid, Paper, Typography, Link } from '@material-ui/co
 import { getUsers } from '../../actions/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { setConversationWith } from '../../actions/chat/conversation'
+import { setConversationWith, resetConversationData } from '../../actions/chat/conversation'
 import {  resetMessages } from '../../actions/chat/message'
 
 const useStyles = makeStyles({
@@ -42,11 +42,21 @@ const UserList = () => {
 
      useEffect(() => {
          if(participants.length !== 0 || participants !== undefined) {
+            //REDUX: Reset the conversation_data when clicking on userlist
+            //this reset must go 1st.
+            //TODO/TOASK: refactor => w/c is more optimized. reset the whole objects or modify/set the specific props/field *Performance
+            dispatch(resetConversationData());
+
+
             dispatch(setConversationWith(participants));
             dispatch(resetMessages());
            //todo: check if the participants has conversation if null reset the message component into new OR =>
            //optimize userList => show only the user that has no conversation at all to current user logged in
+
+
          }
+
+
 
      },[participants])
 
