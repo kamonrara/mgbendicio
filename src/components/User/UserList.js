@@ -65,7 +65,7 @@ const UserList = () => {
                     <Grid container className={classes.mainContainer} component={Paper} >
                         <Typography className={classes.Label}>List of users</Typography> 
                         {userlist.map((user) => (
-                            <Link  className={classes.userLink} component="button"  onClick={() => setParticipants({name: user.firstname, id: user._id})}>
+                            <Link key={user._id} className={classes.userLink} component="button"  onClick={() => setParticipants({name: user.firstname, id: user._id})}>
                                <Typography > { user.firstname }  </Typography>                     
                             </Link>                    
                         ))}            

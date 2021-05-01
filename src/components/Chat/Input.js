@@ -105,8 +105,6 @@ const Input = () => {
   };
 
 
-
-    
     const handleKeyPress = () => {
 
       //when user is typing store the number of keypress in let as counter and use that let on logics ahead
@@ -133,9 +131,7 @@ const Input = () => {
                     onChange={(e) => handleMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     value={myMessage}
-
                 />
-
                 <Button type="submit" className={classes.sendButton} color="primary" variant="contained"> Send </Button>
             </form>
     )

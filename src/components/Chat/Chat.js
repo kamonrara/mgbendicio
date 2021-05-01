@@ -58,6 +58,7 @@ const Chat = () => {
            </Grid>
 
            <Grid item xs={12} sm={12} md={12} lg={4} className={classes.controller}>
+ 
                 {conversation !== null ? <Message /> : null}
                 <Input />
             </Grid>

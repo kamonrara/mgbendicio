@@ -3,7 +3,7 @@ import * as api from '../../api/index';
 // import history from '../../history';
 
 export const getMessages = conversationId => async dispatch => {
-
+        console.log('PAKI CHECK PO PLEASE: ', conversationId)
     try {
         const { data } = await api.fetchMessages(conversationId);
 

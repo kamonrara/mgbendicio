@@ -40,7 +40,15 @@ const Conversation = () => {
     const [conversationData, setConversationData] = useState({ conversation_id: '', conversation_name: ''});
 
     useEffect(() => {
-      if(conversationData.conversation_id !== 0 || conversationData.conversation_id.length !== 0 || conversationData.conversation_id !== undefined) {
+      if(conversationData.conversation_id !== '' || conversationData.conversation_id.length !== 0 || conversationData.conversation_id !== '') {
+        
+        // console.log('VALIDATION CHECKER','\n',
+        // '1st: ', conversationData.conversation_id, '\n',
+        // '2nd: ', conversationData.conversation_id.length, '\n',
+        // '3rd: ', conversationData.conversation_id
+        // )
+       
+        console.log('[25]check this value before loading on getMessages(this): ', conversationData.conversation_id);
         dispatch(getMessages(conversationData.conversation_id));
         dispatch(setConversationId({ conversation_id: conversationData.conversation_id, conversation_name: conversationData.conversation_name }));
         dispatch(setConversationWith(conversation.name));
@@ -67,11 +75,15 @@ const Conversation = () => {
 
 
         dispatch(getConversation(userId));
-        dispatch(getMessages(conversationData.conversation_id));
+
+        if(conversationData.conversation_id !== '') {
+          dispatch(getMessages(conversationData.conversation_id));
+        }
+  
     },[updatingFlag]);
 
     const handleClick = data => {
-      if(conversationData.conversation_id !== 0 || conversationData.conversation_id.length !== 0 || conversationData.conversation_id !== undefined) {
+      if(conversationId !== 0 || conversationId.length !== 0 || conversationId !== undefined) {
         setConversationData({...conversationData, ...data});
 
       }
@@ -83,12 +95,12 @@ const Conversation = () => {
                   <Grid container className={classes.mainContainer} component={Paper} >
                     <Typography className={classes.Label}> My Inbox </Typography> 
                         {conversation.map((conversation) => (
-                          <Grid container item lg={12} md={12} sm={12}>
+                          <Grid key={conversation._id} container item lg={12} md={12} sm={12}>
                                      
                                <MessageIcon/> 
                                {/* <Link component="button" onClick={() => setConversationData({conversation_id: conversation._id, conversation_name: conversation.name})}> */}
-                               <Link component="button" onClick={() => handleClick({conversation_id: conversation._id, conversation_name: conversation.name})}>                              
-                               <Typography > {conversation.name}</Typography>
+                               <Link  key={conversation.conversation_id} component="button" onClick={() => handleClick({conversation_id: conversation._id, conversation_name: conversation.name})}>                              
+                               <Typography>{conversation.name}</Typography>
                               </Link>
                           </Grid> 
 

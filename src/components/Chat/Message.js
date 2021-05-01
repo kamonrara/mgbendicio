@@ -33,8 +33,11 @@ const Message = () => {
 
     useEffect(() => {
         if(conversation_data.conversation_id !== undefined) {
+       
             dispatch(getMessages(conversation_data.conversation_id));
+          
         }
+
     },[]);
 
 
@@ -52,7 +55,7 @@ const Message = () => {
     useEffect(() => {
 
         if(conversation_data.conversation_id !== undefined) {
-          
+          console.log('CHEKIRAWWWWWT: ', conversation_data.conversation_id);
           dispatch(getMessages(conversation_data.conversation_id));
 
           }
@@ -79,7 +82,7 @@ const Message = () => {
           {!messages?.length ? <CircularProgress /> : (
               <ReactScrollableFeed className={classes.scrollFeed}>
                     {messages.map((message) => (
-                        <Grid  key={message._id} container item xs={12} sm={12} md={12}>
+                        <Grid key={message._id} container item xs={12} sm={12} md={12}>
                             <Messages message={message}/>
                         </Grid>
                     ))}          
