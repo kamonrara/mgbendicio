@@ -1,10 +1,10 @@
 import axios from 'axios';
  
 //cloud
-//  const API = axios.create({ baseURL: 'https://kamonrarara.herokuapp.com' });
+ const API = axios.create({ baseURL: 'https://kamonrarara.herokuapp.com' });
 
 //local
-const API = axios.create({ baseURL: 'http://localhost:5555' });
+// const API = axios.create({ baseURL: 'http://localhost:5555' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
