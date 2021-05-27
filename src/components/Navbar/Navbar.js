@@ -6,6 +6,7 @@ import decode from 'jwt-decode';
 import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
 
+
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const Navbar = () => {
   }, [location]);
 
   return (
+    <>
     <AppBar className={classes.appBar} position="static" color="inherit">
         <div className={classes.leftDiv}>
 
@@ -60,8 +62,8 @@ const Navbar = () => {
                 )}
           </Toolbar>
         </div>
-
-    </AppBar>
+    </AppBar>         
+    </>
   );
 };
 

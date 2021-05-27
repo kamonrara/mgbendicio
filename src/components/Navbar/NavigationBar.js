@@ -1,23 +1,22 @@
-import React, { useEffect, useState }      from 'react';
-import { Toolbar, Box, Link, AppBar, IconButton, MenuItem, Drawer, Button } from '@material-ui/core'; 
+import React, { useEffect, useState } from 'react';
+import { Container, Toolbar, Typography, Box, AppBar, IconButton, MenuItem, Drawer, Button } from '@material-ui/core'; 
 import MenuIcon   from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import AcUnitIcon from '@material-ui/icons/AcUnit';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
+import * as actionType from '../../constants/actionTypes';
 
 const useStyles = makeStyles((theme) => ({
-
-    appBar: {
-        borderRadius: 33,
-        margin: '30px 0',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      },
 
   siteTitle: {
     fontWeight: 'bold',
     letterSpacing: 1.5
   },
   toolbar: {
+    backgroundColor: '#6db4e3',
+    fontFamily: 'Segoe UI',
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('md')]: {
@@ -37,17 +36,42 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingLeft: theme.spacing(10)
     },
-    color: 'black'
+    color: 'white'
   },
   menuIcon: {
-    color: 'black'
+    color: 'white',
+    fontSize: '33px'
+  },
+  heading: {
+      fontFamily: 'Segoe UI'
   }
   
 }));
 
 export default function NavigationBar() {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+    const classes = useStyles();
+  
+    const logout = () => {
+        dispatch({ type: actionType.LOGOUT });
+        history.push('/auth');
+        setUser(null);
+      };
 
-  const classes = useStyles();
+      useEffect(() => {
+        const token = user?.token;
+    
+        if (token) {
+          const decodedToken = decode(token);
+          if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
+    
+        setUser(JSON.parse(localStorage.getItem('profile')));
+      }, [location]);
+  
   const [state, setState] = useState({
     toggleMenu: false,
     toggleMenuOpen: false
@@ -71,77 +95,88 @@ export default function NavigationBar() {
     
   }, []);
   
-  
-  
   const displayToggleMenu = () => {
     
     const handleToggleMenuOpen = ()  =>  setState((prevState) => ({ ...prevState,  toggleMenuOpen: true })); 
-    
     const handleToggleMenuClose = () => setState((prevState) => ({ ...prevState, toggleMenuOpen: false }));
     
     return (
-      <Toolbar>
+      <Toolbar style={{ backgroundColor: '#6db4e3'}}>
         <IconButton {...{ onClick: handleToggleMenuOpen }}>
           <MenuIcon className={classes.menuIcon}/>
         </IconButton>
       
-        <Drawer {...{ anchor: 'left', open: toggleMenuOpen, onClose: handleToggleMenuClose }}>
+        <Drawer {...{
+            anchor: 'left',
+            open: toggleMenuOpen,
+            onClose: handleToggleMenuClose
+          }}
+        >
+
           <div>{ getToggleMenuOptions() }</div>
         </Drawer>
+      
       </Toolbar>
     );
   }
 
+  const headerData = [
+    {
+        tag: 'Home',
+        link: '/'
+    },
+    {
+        tag: 'Sign in',
+        link: '/auth'
+    },];
+
   const getToggleMenuOptions = () => {
     return ( 
       <Box>
-        {['home', 'courses', 'sign up'].map((menuOption) => (
+        {headerData.map((data) => (
             <MenuItem> 
-              {menuOption} 
+              {data.tag} 
             </MenuItem>
         ))}
       </Box>
     );
   }
-
-  const metaData = [
-    {
-      menu: 'Home',
-      to: '/'
-    },
-    {
-      menu: 'Messenger',
-      to: '/chat'
-    }
-  ]
   
   const displayLargeMenu = () => {
     return (
       <Toolbar className={classes.toolbar}>
-          <Box className={classes.menuBox}>
-              <Link component='button'
-                    variant='body1' 
-                    to='/'
-                    className={classes.menuOption}
-              >
-                HOMEsss
-              </Link>
+          <Typography
+            component='h1'
+            variant='h6'
+            className={classes.siteTitle}
+          >
+            <AcUnitIcon style={{ fontSize: '33px'}}/>
+          </Typography>
 
-              <Link component='button'
-                    variant='body1' 
-                    to='/chat'
-                    className={classes.menuOption}
-              >
-                MESSENGER
-              </Link>
+          <Box className={classes.menuBox}>
+            <>
+                {headerData.map((data) => (
+                    <Button component={Link} to={data.link} className={classes.heading}>
+                        {data.tag}
+                    </Button> 
+                ))}
+
+                {(user?.result)  && (
+                    <div>
+                        <Button component={Link} to="/chat" className={classes.heading}>Messengerrr</Button> 
+                    </div>
+                )} 
+            </>
           </Box>
         </Toolbar>
     );
   }
   
   return (
-      <AppBar className={classes.appBar} position="static" color="inherit"> 
-        {toggleMenu ? displayToggleMenu() : displayLargeMenu() }
+    <Container>
+      <AppBar> 
+        { toggleMenu ? displayToggleMenu() : displayLargeMenu() }
       </AppBar>
+    </Container>
   );
 }
