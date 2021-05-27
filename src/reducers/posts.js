@@ -1,26 +1,43 @@
 import _ from 'lodash';
-import { FETCH_POSTS, CREATE, UPDATE, DELETE, LIKE , LOGOUT} from '../constants/actionTypes';
+import { FETCH_POSTS, FETCH, CREATE, UPDATE, DELETE, LIKE , LOGOUT, FETCH_BY_SEARCH, START_LOADING, END_LOADING } from '../constants/actionTypes';
 
-export default (posts = [], action) => {
+export default (state = { isLoading: true, posts: []}, action) => {
   //console.log('client/src/reducers/chat/posts/action.payload: ', action.payload,'\n','client/src/reducers/chat/posts/posts: ', posts);
   switch (action.type) {
+
+    case START_LOADING: 
+      return {...state, isLoading: true }
+
+    case END_LOADING: 
+      return {...state, isLoading: false }
+    case FETCH:
+      return { ...state, post: action.payload};
+
     case FETCH_POSTS:
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload.data,
+        currentPage: action.payload.currentPage,
+        numberOfPages: action.payload.numberOfPages
+      }
+
+    case FETCH_BY_SEARCH:
+        return { ...state, posts: action.payload};
 
     case LIKE:
-      return posts.map((post) => (post._id === action.payload._id ? action.payload : post));
+      return { ... state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))};
     case CREATE:
-      return [...posts, action.payload];
+      return { ...state, posts: [...state.posts, action.payload]};
     case UPDATE:
-      return posts.map((post) => (post._id === action.payload._id ? action.payload : post));
+      return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))};
     case DELETE:
-      return posts.filter((post) => post._id !== action.payload);
+      return { ...state, posts: state.posts.filter((post) => post._id !== action.payload)};
 
     case LOGOUT:
-        return posts = [];
+        return state;
 
     default:
-      return posts;
+      return state;
   }
 };
 

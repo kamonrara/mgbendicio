@@ -10,11 +10,12 @@ import io from 'socket.io-client';
 const useStyles = makeStyles({
   
     scrollFeed: {
-      height: 200,
+      height: 300,
       backgroundColor: '#e0e0e0'
     },
     Label: {
       fontWeight: 'bold',
+      fontFamily: 'Segoe UI',
       display: 'flex',
       padding: '11px 11px 11px 11px'
     }

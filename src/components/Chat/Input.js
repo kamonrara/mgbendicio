@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Box, Paper } from '@material-ui/core';
 import { createMessage } from '../../actions/chat/message';
 import { createConversationAndMessage } from '../../actions/chat/conversation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,13 +10,23 @@ let socket = io('localhost:5555');
 
 const useStyles = makeStyles({
 
+    Box: {
+      display: 'flex',
+      justifyContent: 'space-around',
+      margin: '3px 3px 3px 3px',
+    },
+    
+    messageTextfield : {
+      display: 'flex',
+      margin: '22px 11px 11px 11px'
+  },
     sendButton : {
-        display: 'flex',
-        justifyContent: 'flex-end',
-      },
-      messageTextfield : {
-        margin: '22px 11px 11px 11px'
-      },
+      display: 'flex',
+      margin: '3px 3px 3px 3px',
+      fontFamily: 'Segoe UI',
+
+    },
+
 
   });
 
@@ -122,17 +132,20 @@ const Input = () => {
 
     return (
             <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <TextField 
+              <Box className={classes.Box} component={Paper}>
+              <TextField 
                     className={classes.messageTextfield} 
                     name="message"
                     variant="outlined" 
-                    label="Message"
+                    label="Send Message..."
                     fullWidth multiline rows={2} 
                     onChange={(e) => handleMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     value={myMessage}
                 />
                 <Button type="submit" className={classes.sendButton} color="primary" variant="contained"> Send </Button>
+              </Box>
+
             </form>
     )
 };

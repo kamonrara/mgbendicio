@@ -3,6 +3,7 @@ export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const FETCH = 'FETCH';
 export const FETCH_ALL = 'FETCH_ALL';
+export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH';
 export const LIKE = 'LIKE';
 
 export const AUTH = 'AUTH';
@@ -31,3 +32,6 @@ export const FETCH_MESSAGES = 'FETCH_MESSAGES';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 export const RESET_MESSAGES = 'RESET_MESSAGES';
 
+//NEW
+export const START_LOADING = 'START_LOADING';
+export const END_LOADING = 'END_LOADING';

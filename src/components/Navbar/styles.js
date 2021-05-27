@@ -4,11 +4,19 @@ import { deepPurple } from '@material-ui/core/colors';
 export default makeStyles((theme) => ({
 
   appBar: {
-    borderRadius: 15,
+   
+    borderRadius: 33,
     margin: '30px 0',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+
+  rightDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingRight: '3em',
+    fontWeight: 'bold'
   },
 
   leftDiv: {
@@ -17,16 +25,11 @@ export default makeStyles((theme) => ({
     paddingLeft: '33px'
   },
 
-  rightDiv: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingRight: '33px'
-  },
-
   heading: {
     color: 'rgba(0,183,255, 1)',
+    fontFamily: 'Segoe UI',
     textDecoration: 'none',
-    fontSize: '16px'
+    fontSize: '18px'
   },
   image: {
     marginLeft: '15px',
@@ -37,6 +40,7 @@ export default makeStyles((theme) => ({
   },
   userName: {
     display: 'flex',
+    fontFamily: 'Segoe UI',
     alignItems: 'center',
     padding : '11px 11px 11px 11px'
   },

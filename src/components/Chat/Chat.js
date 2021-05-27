@@ -1,4 +1,4 @@
-import { Grid, Grow, Container } from '@material-ui/core';
+import { Grid, Grow, Container, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,7 +26,9 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'row'
-
+  },
+  padding: {
+    padding: '9px 9px 9px 9px'
   }
 
 });
@@ -49,15 +51,15 @@ const Chat = () => {
     <Grow in>
     <Container>
         <Grid className={classes.container} container>
-           <Grid item xs={12} sm={12} md={12} lg={4} className={classes.userList} >
+           <Grid item xs={12} sm={12} md={12} lg={4} className={classes.padding} elevation={12} >
                 <UserList/>
            </Grid>
 
-           <Grid item xs={12} sm={12} md={12} lg={4}  className={classes.userList} >
+           <Grid item xs={12} sm={12} md={12} lg={4}  className={classes.padding} elevation={12} >
                 <Conversation /> 
            </Grid>
 
-           <Grid item xs={12} sm={12} md={12} lg={4} className={classes.controller}>
+           <Grid item xs={12} sm={12} md={12} lg={4} className={classes.controller} component={Paper} elevation={12} >
  
                 {conversation !== null ? <Message /> : null}
                 <Input />

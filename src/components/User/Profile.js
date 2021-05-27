@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Paper, Grid, Typography, Container, Grow } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 import { updateUser } from '../../actions/users';
 import useStyles from './styles';
 import Input from './Input';
@@ -11,7 +10,6 @@ const initialState = { firstname: '', lastname: '', email: '' };
 const Profile = () => {
     const [form, setForm] = useState(initialState);
     const dispatch = useDispatch();
-    const history = useHistory();
     const classes = useStyles();
     const user = JSON.parse(localStorage.getItem('profile'));
 

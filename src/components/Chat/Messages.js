@@ -26,7 +26,7 @@ const Messages = ({ message }) => {
 
     return (
         <Grid style={{ display: "flex", justifyContent: justifyContentVal }} item xs={12} sm={12} md={12}>    
-            <Typography className="messageBox" style={{ background: backgroundColor.color}}>
+            <Typography className="messageBox" style={{ background: backgroundColor.color, fontFamily: 'Segoe UI', margin: '1px 3px 1px 3px' }}>
                     {message.content}
             </Typography>
         </Grid>

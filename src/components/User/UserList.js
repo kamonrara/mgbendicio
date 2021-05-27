@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Grid, Paper, Typography, Link } from '@material-ui/core';
+import { CircularProgress, Grid, Paper, Typography, Link, Button, Box } from '@material-ui/core';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { getUsers } from '../../actions/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,17 +12,28 @@ const useStyles = makeStyles({
       display: 'flex',
       flexDirection: 'column',
       overflowY: 'auto',
-      backgroundColor: '#fda01d',
-   
+      backgroundColor: '#FFFFFF',
       padding: '11px 11px 11px 11px'
     },
     userLink: {
-        display: 'flex'
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '3px 3px 3px 3px',
+        height: '33px'
     },
     Label: {
         display: 'flex',
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+        fontFamily: 'Segoe UI',
+        paddingBottom: '9px'
+    },
+    UserContent: {
+        display: 'flex',
+        fontWeight: 'bold',
+        fontFamily: 'Segoe UI',
+        paddingLeft: '9px'
+    },
 
   });
 
@@ -63,11 +75,15 @@ const UserList = () => {
     return (        
         !userlist?.length ? <CircularProgress /> : (                        
                     <Grid container className={classes.mainContainer} component={Paper} >
-                        <Typography className={classes.Label}>List of users</Typography> 
+                        <Typography className={classes.Label}>USER LIST</Typography> 
                         {userlist.map((user) => (
-                            <Link key={user._id} className={classes.userLink} component="button"  onClick={() => setParticipants({name: user.firstname, id: user._id})}>
-                               <Typography > { user.firstname }  </Typography>                     
-                            </Link>                    
+                            <Link key={user._id} className={classes.userLink} component={Paper} elevation={9} onClick={() => setParticipants({name: user.firstname, id: user._id})}>
+                              <Button className={classes.UserContent}> { user.firstname }  </Button>  
+                                <Button style={{ color: 'black' }} size="small">
+                                    <MoreHorizIcon fontSize="default" />
+                                </Button>       
+                          
+                            </Link>       
                         ))}            
                     </Grid>              
             )

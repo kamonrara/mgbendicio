@@ -32,14 +32,14 @@ const Navbar = () => {
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-
         <div className={classes.leftDiv}>
-          <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Home</Typography> &nbsp;
+
+          <Button component={Link} to="/" className={classes.heading}>Home</Button> 
+
               {(user?.result)  && (
                 <div>
-                    <Typography component={Link} to="/user/profile" className={classes.heading} variant="h2" align="center">Profile</Typography>
-                    &nbsp;
-                    <Typography component={Link} to="/chat" className={classes.heading} variant="h2" align="center">Messenger</Typography>
+                    {/* <Button component={Link} to="/user/profile" className={classes.heading}> Profile</Button>  */}
+                    <Button component={Link} to="/chat" className={classes.heading}>Messenger</Button> 
                 </div>
               )}
         </div>
@@ -51,11 +51,12 @@ const Navbar = () => {
                   <div className={classes.profile}>
                     <Avatar className={classes.avatar} alt={user?.result.firstname} src={user?.result.imageUrl}>{user?.result.firstname.charAt(0)}</Avatar>
                     <Typography className={classes.userName} variant="h6">{user?.result.firstname}</Typography>
-                    <Button variant="contained"  color="secondary" onClick={logout}>Logout</Button>
+                    <Button variant="contained" style={{ fontFamily: 'Segoe UI'}} color="secondary" onClick={logout}>Logout</Button>
                   </div>
                 ) : 
                 (
                   <Button component={Link} to="/auth" variant="contained" color="primary">Sign In</Button>
+                
                 )}
           </Toolbar>
         </div>
