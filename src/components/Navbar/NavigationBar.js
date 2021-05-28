@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Toolbar, Typography, Box, AppBar, IconButton, MenuItem, Drawer, Button } from '@material-ui/core'; 
+import { Container, Toolbar, Typography, Box, AppBar, IconButton, MenuItem, Drawer, Button, Avatar } from '@material-ui/core'; 
 import MenuIcon   from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
@@ -16,9 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     backgroundColor: '#6db4e3',
-    fontFamily: 'Segoe UI',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
       justifyContent: 'space-between'
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuBox: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row'
     }
@@ -43,8 +42,34 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '33px'
   },
   heading: {
-      fontFamily: 'Segoe UI'
-  }
+      display: 'flex',
+      fontFamily: 'Segoe UI',
+      marginLeft: '33px'
+  },
+  profile: {
+    display: 'flex',
+  },
+  userName: {
+    display: 'flex',
+    fontFamily: 'Segoe UI',
+    alignItems: 'center',
+    padding : '11px 11px 11px 11px'
+  },
+  avatar: {
+    padding : '11px 11px 11px 11px',
+    color: 'gray',
+    backgroundColor: 'white',
+  },
+  leftDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: '33px'
+  },
+  rightDiv: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: '3em',
+  },
   
 }));
 
@@ -94,7 +119,19 @@ export default function NavigationBar() {
     window.addEventListener("resize", () => setResponsiveness());
     
   }, []);
-  
+
+  const headerData = [
+    {
+        tag: 'Home',
+        link: '/'
+    },
+    {
+        tag: 'Sign in',
+        link: '/auth'
+    },];
+
+
+  //mobile
   const displayToggleMenu = () => {
     
     const handleToggleMenuOpen = ()  =>  setState((prevState) => ({ ...prevState,  toggleMenuOpen: true })); 
@@ -120,53 +157,48 @@ export default function NavigationBar() {
     );
   }
 
-  const headerData = [
-    {
-        tag: 'Home',
-        link: '/'
-    },
-    {
-        tag: 'Sign in',
-        link: '/auth'
-    },];
-
+   
   const getToggleMenuOptions = () => {
     return ( 
       <Box>
         {headerData.map((data) => (
-            <MenuItem> 
-              {data.tag} 
-            </MenuItem>
+            <Button component={Link} to={data.link} className={classes.heading}>
+                {data.tag}
+            </Button> 
         ))}
       </Box>
     );
   }
-  
+
+  //desktop
   const displayLargeMenu = () => {
     return (
       <Toolbar className={classes.toolbar}>
-          <Typography
-            component='h1'
-            variant='h6'
-            className={classes.siteTitle}
-          >
+           <Box className={classes.menuBox}>
             <AcUnitIcon style={{ fontSize: '33px'}}/>
-          </Typography>
+            <Button component={Link} to="/" className={classes.heading}>Home</Button> 
+            {(user?.result)  && (           
+            <Button component={Link} to="/chat" className={classes.heading}>Messenger</Button> 
+            )}
+           </Box>
 
           <Box className={classes.menuBox}>
-            <>
-                {headerData.map((data) => (
-                    <Button component={Link} to={data.link} className={classes.heading}>
-                        {data.tag}
-                    </Button> 
-                ))}
-
-                {(user?.result)  && (
-                    <div>
-                        <Button component={Link} to="/chat" className={classes.heading}>Messengerrr</Button> 
-                    </div>
+            <div className={classes.rightDiv}>
+                {user?.result ? 
+                 (
+                  <div className={classes.profile}>
+                    <Avatar className={classes.avatar} alt={user?.result.firstname} src={user?.result.imageUrl}>{user?.result.firstname.charAt(0)}</Avatar>
+                    <Typography className={classes.userName} variant="h6">{user?.result.firstname}</Typography>
+                    <Button variant="contained" style={{ fontFamily: 'Segoe UI'}} color="secondary" onClick={logout}>Logout</Button>
+                  </div>
+                    // <div>
+                    //     <Button component={Link} to="/chat" className={classes.heading}>Messenger</Button> 
+                    // </div>
+                ) : (
+                    <Button component={Link} to="/auth" variant="contained" color="primary" style={{ fontFamily: 'Segoe UI'}}>Sign In</Button>
                 )} 
-            </>
+            </div>
+           
           </Box>
         </Toolbar>
     );

@@ -16,7 +16,6 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     paddingRight: '3em',
-    fontWeight: 'bold'
   },
 
   leftDiv: {
