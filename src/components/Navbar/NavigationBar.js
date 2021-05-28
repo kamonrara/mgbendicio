@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Toolbar, Typography, Box, AppBar, IconButton, MenuItem, Drawer, Button, Avatar } from '@material-ui/core'; 
+import { Container, Toolbar, Typography, Box, AppBar, IconButton, Drawer, Button, Avatar, Divider } from '@material-ui/core'; 
 import MenuIcon   from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
@@ -161,6 +161,8 @@ export default function NavigationBar() {
                <div>
                   <Button component={Link} to="/" className={classes.mobileHeading}>Home</Button> 
                   <Button component={Link} to="/chat" className={classes.mobileHeading}>Messenger</Button> 
+                   <Divider style={{ marginBottom: '11px'}}/>
+                  <Typography className={classes.mobileHeading} variant="h6">{user?.result.firstname}</Typography>
                   <Button variant="contained" style={{ display: 'flex', fontFamily: 'Segoe UI'}} color="secondary" onClick={logout}>Logout</Button>
               </div>
             ):(

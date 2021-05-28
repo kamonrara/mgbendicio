@@ -7,8 +7,6 @@ import App from './App';
 import './index.css';
 import reducers from './reducers/index';
 
-// import { SocketContext, socket } from './context/socket'
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 

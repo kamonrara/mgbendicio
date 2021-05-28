@@ -76,8 +76,6 @@ const Post = ({ post, setCurrentId }) => {
 
   const openPost = () => history.push(`/posts/${post._id}`);
 
-  console.log('[G]userId: ',user?.result?._id,'postCreator: ', post?.creator)
-
   return (
     <Card className={classes.card} raised elevation={6}>
       <ButtonBase
