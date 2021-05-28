@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   heading: {
       display: 'flex',
       fontFamily: 'Segoe UI',
-      marginLeft: '33px'
+      marginLeft: '33px',
   },
   profile: {
     display: 'flex',
@@ -70,6 +70,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingRight: '3em',
   },
+  mobileBox: {
+    display: 'flex'
+  },
+  mobileHeading: {
+    display: 'flex',
+    justifyContent: 'center',
+    fontFamily: 'Segoe UI',
+  }
   
 }));
 
@@ -120,17 +128,6 @@ export default function NavigationBar() {
     
   }, []);
 
-  const headerData = [
-    {
-        tag: 'Home',
-        link: '/'
-    },
-    {
-        tag: 'Sign in',
-        link: '/auth'
-    },];
-
-
   //mobile
   const displayToggleMenu = () => {
     
@@ -157,15 +154,21 @@ export default function NavigationBar() {
     );
   }
 
-   
   const getToggleMenuOptions = () => {
     return ( 
-      <Box>
-        {headerData.map((data) => (
-            <Button component={Link} to={data.link} className={classes.heading}>
-                {data.tag}
-            </Button> 
-        ))}
+      <Box className={classes.mobileBox}>
+            {user?.result ? (
+               <div>
+                  <Button component={Link} to="/" className={classes.mobileHeading}>Home</Button> 
+                  <Button component={Link} to="/chat" className={classes.mobileHeading}>Messenger</Button> 
+                  <Button variant="contained" style={{ display: 'flex', fontFamily: 'Segoe UI'}} color="secondary" onClick={logout}>Logout</Button>
+              </div>
+            ):(
+                <div>
+                   <Button component={Link} to="/" className={classes.mobileHeading}>Home</Button> 
+                   <Button component={Link} to="/auth" variant="contained" color="primary" style={{ fontFamily: 'Segoe UI'}}>Sign In</Button>
+                </div>
+            )}
       </Box>
     );
   }
