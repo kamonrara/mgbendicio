@@ -39,6 +39,7 @@ const useStyles = makeStyles({
 
 const Conversation = () => {
 
+    console.log('[Conversation] Rendered')
     const classes = useStyles();
     const dispatch = useDispatch();
     const conversation = useSelector((state) => state.conversations);
@@ -51,6 +52,7 @@ const Conversation = () => {
     useEffect(() => {
       if(conversationData.conversation_id !== '' || conversationData.conversation_id.length !== 0 || conversationData.conversation_id !== '') {
         dispatch(getMessages(conversationData.conversation_id));
+
         dispatch(setConversationId({ conversation_id: conversationData.conversation_id, conversation_name: conversationData.conversation_name }));
         dispatch(setConversationWith(conversation.name));
 

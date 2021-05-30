@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
     
 const Chat = () => {
-
+  console.log('[Chat] Rendered: ');
     const classes = useStyles();
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user?.result?._id;

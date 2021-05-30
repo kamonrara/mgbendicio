@@ -4,7 +4,7 @@ import './Messages.css';
 // import io from 'socket.io-client';
 
 const Messages = ({ message }) => {
-
+    console.log('[Messages] Rendered: ');
     const [justifyContentVal, setJustifyContentVal] = useState("");
     const [backgroundColor, setBackgroundColor] = useState({ color: ''});
     const user = JSON.parse(localStorage.getItem('profile'));

@@ -32,18 +32,13 @@ const useStyles = makeStyles({
 
 const Input = () => {
 
+  
     const classes = useStyles();
     const dispatch = useDispatch();
-
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user?.result?._id;
-
     const conversation_data = useSelector((state) => state.conversation_data);
-
-    console.log('conversation_data: ', conversation_data);
-
     const [messsageData, setMessageData] = useState({ owner: '', conversationId : '', content: ''});
-
     const [keyPressCount, setKeyPressCount] = useState(0);
     
     //TODO: change this code into const var, useState no need
@@ -55,7 +50,7 @@ const Input = () => {
         owner: '', conversationId : '', content: ''
       }
      })
-
+     console.log('[Input] Rendered: ',conversation_data);
      const [myMessage, setMyMessage] = useState('');
      const conversationId = conversation_data?.conversation_id; 
 

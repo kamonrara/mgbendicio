@@ -28,6 +28,7 @@ export const createConversation = (conversation) => async (dispatch) => {
 
     try {
         const { data } = await api.createConversation(conversation);
+
         dispatch({ type: CREATE_CONVERSATION, payload: data })
 
     } catch (error) {
@@ -39,6 +40,7 @@ export const createConversationAndMessage = (conversationAndMessage) => async (d
         console.log('conversationAndMessageeee: ', conversationAndMessage);
     try {
         const { data } = await api.createConversationAndMessage(conversationAndMessage);
+        console.log('conversationAndMessageeee try ', data)
         dispatch({ type: CREATE_CONVERSATION_AND_MESSAGE, payload: data })
 
     } catch (error) {

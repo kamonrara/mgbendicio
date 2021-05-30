@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 
 
 const UserList = () => {
-
+    console.log('[UserList] Rendered: ');
     const classes = useStyles();
     const dispatch = useDispatch();
     const userlist = useSelector((state) => state.users)
