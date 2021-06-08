@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessages } from '../../actions/chat/message';
+import { getConversation } from '../../actions/chat/conversation';
 import Messages from './Messages.js';
 import ReactScrollableFeed from 'react-scrollable-feed';
 import io from 'socket.io-client';
@@ -23,16 +24,17 @@ const useStyles = makeStyles({
   
   });
 
-
   let socket = io('localhost:5555');
 
 const Message = () => {
-  console.log('[Message] Rendered: ');
     const classes = useStyles();
     const dispatch = useDispatch();
     const messages = useSelector((state) => state.messages);
 
     const conversation_data = useSelector((state) => state.conversation_data);
+
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const userId = user?.result?._id;
 
     useEffect(() => {
         if(conversation_data.conversation_id !== undefined) {
@@ -46,22 +48,32 @@ const Message = () => {
     useEffect(() => {
             socket.on('typing-activated', data => {
             SetTyping(data);
-            console.log('[MESSAGE] socket.on.typing-activated-data: ', data);
+            // console.log('[MESSAGE] socket.on.typing-activated-data: ', data);
             })
     },[typing])
 
     const [emitMessageRespond, setEmitMessageRespond] = useState(0);
+
     useEffect(() => {
 
+        //the syntax below is one-time-run only, when user dont have conversation/message yet (he's newly registerred user) -->
+        if(conversation_data.conversation_id === undefined) {
+          dispatch(getConversation(userId));
+      
+        }
+        // ------|
+
+        //the syntax below is already has the conversation and just appending messages -->
         if(conversation_data.conversation_id !== undefined) {
-          console.log('CHEKIRAWWWWWT: ', conversation_data.conversation_id);
           dispatch(getMessages(conversation_data.conversation_id));
 
+
           }
+        // ------|
 
       socket.on('updateMessage', data => {
-        console.log('[MESSAGE]: socket-on-updateMessage ', data);
-        console.log('[Message] Rendered: pleasepleasepleaseplease ', data, '\n','messages: ', messages);
+        console.log('[Message]: socket-on-updateMessage ', data);
+        // console.log('[Message] Rendered: pleasepleasepleaseplease ', data, '\n','messages: ', messages);
         setEmitMessageRespond(data);
     });
 
@@ -72,7 +84,8 @@ const Message = () => {
 
     useEffect(() => {
 
-      console.log('new useEffect: ', conversationData.conversation_id)
+      // console.log('new useEffect: ', conversationData.conversation_id)
+
       if(conversationData.conversation_id !== '' || conversationData.conversation_id.length !== 0 || conversationData.conversation_id !== '') {
         dispatch(getMessages(conversationData.conversation_id));
 

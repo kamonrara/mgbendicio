@@ -11,7 +11,7 @@ import PostDetails from './components/PostDetails/PostDetails';
 const App = () => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
-  console.log('[App] user: ', user);
+  // console.log('[App] user: ', user);
 
   return (
         <BrowserRouter>

@@ -34,15 +34,13 @@ const useStyles = makeStyles({
 });
     
 const Chat = () => {
-  console.log('[Chat] Rendered: ');
+
     const classes = useStyles();
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user?.result?._id;
 
     const dispatch = useDispatch();
-
-    const conversation = useSelector((state) => state.conversations);
-
+ 
     useEffect(() => {
         dispatch(getConversation(userId));
     },[]);
@@ -61,7 +59,8 @@ const Chat = () => {
 
            <Grid item xs={12} sm={12} md={12} lg={4} className={classes.controller} component={Paper} elevation={12} >
  
-                {conversation !== null ? <Message /> : null}
+                {/* {conversation !== null ? <Message /> : null} */}
+                <Message /> 
                 <Input />
             </Grid>
           </Grid>

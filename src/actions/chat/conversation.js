@@ -37,10 +37,11 @@ export const createConversation = (conversation) => async (dispatch) => {
 
 }
 export const createConversationAndMessage = (conversationAndMessage) => async (dispatch) => {
-        console.log('conversationAndMessageeee: ', conversationAndMessage);
+        // console.log('redux/action: conversationAndMessage <outside-try>: ', conversationAndMessage);
     try {
         const { data } = await api.createConversationAndMessage(conversationAndMessage);
-        console.log('conversationAndMessageeee try ', data)
+
+        // console.log('redux/action: conversationAndMessage <inside-try> : newly generated conversation ID: ', data._id)
         dispatch({ type: CREATE_CONVERSATION_AND_MESSAGE, payload: data })
 
     } catch (error) {

@@ -5,10 +5,10 @@ export default (conversation_data = [], action) => {
         case SET_CONVERSATION_ID:
             return action.payload
         case SET_CONVERSATION_WITH:
-            console.log('SET_CONVERSATION_WITH::::::: ', conversation_data, '   ', action)
+            // console.log('SET_CONVERSATION_WITH::::::: ', conversation_data, '   ', action)
             return {...conversation_data, conversation_with: action.payload}
         case RESET_CONVERSATION_DATA:
-            console.log('RESET_CONVERSATION_DATA::::::: ', conversation_data, '   ', action)
+            // console.log('RESET_CONVERSATION_DATA::::::: ', conversation_data, '   ', action)
             return conversation_data = []
         case LOGOUT:
             return conversation_data = []

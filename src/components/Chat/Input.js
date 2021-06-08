@@ -32,7 +32,6 @@ const useStyles = makeStyles({
 
 const Input = () => {
 
-  
     const classes = useStyles();
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -50,7 +49,7 @@ const Input = () => {
         owner: '', conversationId : '', content: ''
       }
      })
-     console.log('[Input] Rendered: ',conversation_data);
+    //  console.log('[Input] Rendered: ',conversation_data);
      const [myMessage, setMyMessage] = useState('');
      const conversationId = conversation_data?.conversation_id; 
 
@@ -62,7 +61,7 @@ const Input = () => {
         if(conversation_data.conversation_with === undefined) {
           setMessageData({ ...messsageData, content: message })     
           setMyMessage(prev => message);
-          console.log('myMessagemyMessagemyMessage ', myMessage);
+          // console.log('myMessagemyMessagemyMessage ', myMessage);
         } else {
           setMyMessage(message);
       
@@ -78,7 +77,7 @@ const Input = () => {
           dispatch(createMessage({...messsageData, owner: userId, conversationId: conversation_data?.conversation_id}));
        
            socket.emit('sendMessage', { type: 'message' }, () => {
-                  console.log('[CHAT]: socket.io. emit/sendMessage');
+                  // console.log('[CHAT]: socket.io. emit/sendMessage');
             });
 
        } else if (conversation_data?.conversation_with !== undefined) {
@@ -116,12 +115,12 @@ const Input = () => {
       //avoid the enter key here
        setKeyPressCount(prev => prev + 1);
 
-      console.log('[INPUT] handleKeyPress: ', keyPressCount);
+      // console.log('[INPUT] handleKeyPress: ', keyPressCount);
 
       socket.emit('typing', { userId: userId, conversationId: conversationId });
 
       socket.on('typing-activated', data => {
-        console.log('server response: ', data);
+        // console.log('server response: ', data);
       })
     }
 
