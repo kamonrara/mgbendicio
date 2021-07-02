@@ -9,7 +9,6 @@ import { setConversationId, setConversationWith } from '../../actions/chat/conve
 import MessageIcon from '@material-ui/icons/Message';
 import { socket } from '../../service/socket';
 
-
 const useStyles = makeStyles({
 
     mainContainer: {
@@ -82,36 +81,32 @@ const Conversation = () => {
         })}
 
         /////
-
       ///
-
 
     const [updatingFlag, setUpdatingFlag] = useState(0);
 
     useEffect(() => {
 
-        // console.log('Conversation useEffect');
-
         if(updatingFlag !== 0) {
             socket.on('updateMessage', (data) => {
-              console.log('[CONVERSATION] : socket.on.updateMessage', data);
+
               setUpdatingFlag(data.updatingFlag);
             });
         
             socket.on('updateConversation', (data) => {
-              console.log('Conversation useEffect updateConversation-data: ', data);
+
               setUpdatingFlag(data.updatingFlag);
             });
 
         }
         dispatch(getConversation(userId));
 
-        console.log('[CONVERSATION]-->')
+
         socket.on('updateMessage', (data) => {
-          console.log('[CONVERSATION] : socket.on.updateMessage', data);
+
           setUpdatingFlag(data.updatingFlag);
         });
-        console.log('[CONVERSATION]--|')
+
 
         if(conversationData.conversation_id !== '') {
           dispatch(getMessages(conversationData.conversation_id));
@@ -134,12 +129,10 @@ const Conversation = () => {
         //add validation here so it will nto always click, just click when the inbox is belongs to him/her
       if(inputRef.current !== null){
         inputRef.current.click();
-        console.log('inputRef invoked click(): ', inputRef.current)
       }
        
     }, [conversation])
     
-
     return(
            !conversation?.length ? <CircularProgress /> : (       
                   <Grid container className={classes.mainContainer} component={Paper} >
@@ -147,7 +140,7 @@ const Conversation = () => {
                         {conversation.map((conversation) => (
                           <Grid key={conversation._id} container item lg={12} md={12} sm={12}>
                                <MessageIcon/> 
-                               <Link  ref={inputRef} key={conversation.conversation_id} component="button" onClick={() => handleClick({conversation_id: conversation._id, conversation_name: conversation.name})}>                              
+                               <Link ref={inputRef} key={conversation.conversation_id} component="button" onClick={() => handleClick({conversation_id: conversation._id, conversation_name: conversation.name})}>                              
                                 <Typography className={classes.UserContent}>{conversation.name}</Typography>
                               </Link>
                           </Grid> 

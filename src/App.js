@@ -11,7 +11,7 @@ import PostDetails from './components/PostDetails/PostDetails';
 const App = () => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
-  // console.log('[App] user: ', user);
+   console.log('[App] user: ', user);
 
   return (
         <BrowserRouter>
@@ -23,7 +23,9 @@ const App = () => {
             <Route path="/posts/search" exact component={Home}/>
             <Route path="/posts/:id"  component={PostDetails}/>
             <Route path="/chat" exact component={Chat} />
-            <Route path="/auth" exact component={() => (user === null ? <Auth /> : <Redirect to="/posts" />)} />
+            {/* <Route path="/auth" exact component={() => (user === null ? <Auth /> : <Redirect to="/posts" />)} /> */}
+            <Route path="/auth" exact component={() => (user === null ? <Auth /> : <Redirect to="/" />)} />
+         
             <Route path="/user/profile" exact component={Profile}/>
           </Switch>
         </Container>

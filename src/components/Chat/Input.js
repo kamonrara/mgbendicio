@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField, Box, Paper } from '@material-ui/core';
 import { createMessage } from '../../actions/chat/message';
@@ -72,6 +72,7 @@ const Input = () => {
         e.preventDefault();
         clear();
 
+       //db entry: message only 
        if(conversation_data?.conversation_with === undefined) {
 
           dispatch(createMessage({...messsageData, owner: userId, conversationId: conversation_data?.conversation_id}));
@@ -80,6 +81,8 @@ const Input = () => {
                   // console.log('[CHAT]: socket.io. emit/sendMessage');
             });
 
+
+       //db entry: conversation and message are created <his/her first message sent>   
        } else if (conversation_data?.conversation_with !== undefined) {
 
          dispatch(createConversationAndMessage(

@@ -1,10 +1,10 @@
 import axios from 'axios';
  
 //cloud
-const API = axios.create({ baseURL: 'https://merntradebaits.herokuapp.com/' });
+// const API = axios.create({ baseURL: 'https://merntradebaits.herokuapp.com/' });
 
 //local
-// const API = axios.create({ baseURL: 'http://localhost:5555' });
+const API = axios.create({ baseURL: 'http://localhost:5555' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
@@ -21,6 +21,7 @@ export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?search
 
 export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { value });
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
 

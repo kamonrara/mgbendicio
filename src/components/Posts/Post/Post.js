@@ -8,7 +8,9 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { likePost, deletePost } from '../../../actions/posts';
 import useStyles from './styles';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+
+
 // import io from 'socket.io-client';
 // let socket;
 // const ENDPOINT = 'localhost:5555';
@@ -16,7 +18,7 @@ import { useHistory } from 'react-router-dom'
 const Post = ({ post, setCurrentId }) => {
 
   // message debugger...
-  console.log('[POST] ', post);
+  // console.log('[POST] ', post);
 
   //THIS SELECTOR WILL FIND THE UPDATED POST AND RE-RENDER THE UPDATED DATA..
   //const updatedPost = useSelector((state) => (state.posts.find((post) => post._id === post._id)));
@@ -28,6 +30,8 @@ const Post = ({ post, setCurrentId }) => {
 
   //socket = io(ENDPOINT);
   const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState(post?.likes);
+
 
   // useEffect(() => {
   //     console.log(
@@ -55,19 +59,29 @@ const Post = ({ post, setCurrentId }) => {
   //   });
   // }, []); 
 
-  const handleLikesEvent = () => {
+  const userId = user?.result.googleId || user?.result?._id
+  const hasLikedPost = post.likes.find((like) => like === userId);
 
+  const handleLikesEvent = async () => {
          dispatch(likePost(post._id));
+
+          //did the current user like the post or not.
+         if (hasLikedPost) {
+          setLikes(post.likes.filter((id) => id !== userId));
+
+         } else {
+            setLikes([ ...post.likes, userId]);
+         }
   }
 
   const Likes = () => { 
-      //console.log('-[POST] THIS LINE IS BELOW Likes()');
-      if (post?.likes?.length > 0) {
-        return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+
+      if (likes.length > 0) {
+        return likes.find((like) => like === userId)
           ? (
-            <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
+            <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
           ) : (
-            <><ThumbUpAltOutlined fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+            <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
           );
       }    
 

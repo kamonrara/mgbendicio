@@ -1,7 +1,7 @@
 import { Grid, Grow, Container, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Conversation from './Conversation';
 import Message from './Message';
 import { getConversation } from '../../actions/chat/conversation';
@@ -32,7 +32,13 @@ const useStyles = makeStyles({
   }
 
 });
-    
+
+let ctr = 0;
+
+const cleanup = () => {
+    ctr = 0;
+}
+
 const Chat = () => {
 
     const classes = useStyles();
@@ -43,7 +49,12 @@ const Chat = () => {
  
     useEffect(() => {
         dispatch(getConversation(userId));
+
+        return cleanup()
     },[]);
+
+    ctr = ctr + 1;
+    console.log('chat ctr: ', ctr)
 
   return (
     <Grow in>

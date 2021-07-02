@@ -1,4 +1,4 @@
-import { FETCH_POSTS, CREATE, UPDATE, DELETE, LIKE, FETCH, FETCH_BY_SEARCH, START_LOADING, END_LOADING } from '../constants/actionTypes';
+import { FETCH_POSTS, CREATE, UPDATE, DELETE, LIKE, FETCH, FETCH_BY_SEARCH, START_LOADING, END_LOADING, COMMENT } from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
 
@@ -79,9 +79,27 @@ export const likePost = (id) => async (dispatch) => {
   }
 };
 
+export const commentPost = (value, id) => async (dispatch) => {
+  try{
+  
+    const { data } = await api.comment(value, id);
+    //we are expecting that this data, if front end send a correct data ,
+    //that means that this data should return a new post, and
+    //that post should have that comments on array, and it should have that comment that the user typed in
+    console.log('WARARARARAR:::: ', data)
+    dispatch({ type: COMMENT, payload: data});
+
+    //return the newest commetns thats coming in
+    return data.comments;
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await await api.deletePost(id);
+      await api.deletePost(id);
 
     dispatch({ type: DELETE, payload: id });
   } catch (error) {

@@ -7,7 +7,7 @@ export default (messages = [], action) => {
       case RESET_MESSAGES:
         return messages = [];
       case LOGOUT:
-        return messages = [];
+        return messages;
       default:
         return messages;
     }
