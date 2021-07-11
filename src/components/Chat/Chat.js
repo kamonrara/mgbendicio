@@ -33,12 +33,6 @@ const useStyles = makeStyles({
 
 });
 
-let ctr = 0;
-
-const cleanup = () => {
-    ctr = 0;
-}
-
 const Chat = () => {
 
     const classes = useStyles();
@@ -50,11 +44,8 @@ const Chat = () => {
     useEffect(() => {
         dispatch(getConversation(userId));
 
-        return cleanup()
     },[]);
 
-    ctr = ctr + 1;
-    console.log('chat ctr: ', ctr)
 
   return (
     <Grow in>

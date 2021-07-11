@@ -37,30 +37,17 @@ const useStyles = makeStyles({
 
   });
 
-let ctr = 0;
-
-const cleanup = () => {
-    ctr = 0;
-}
 
 const UserList = () => {
 
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const classes = useStyles();
     const userlist = useSelector((state) => state.users);
-    const conversation_data = useSelector(state => state.conversation_data);
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const currentUser =  user?.result.firstname;
 
-    console.log('userlist ', userlist);
-    // let removeIndex = userlist.map(function(item) { return item.firstname; }).indexOf('waldo');
-    // userlist.splice(removeIndex, 1);
-    // console.log('[AFTER]userlist ', userlist);
-  
     useEffect(() => {
         dispatch(getUsers());
-        console.log('userlist/useEffect ', userlist);
-
-        return cleanup()
-
     },[]);
 
     const [participants, setParticipants] = useState({ name: '', id: ''});
@@ -79,26 +66,27 @@ const UserList = () => {
 
      },[participants])
 
-     ctr = ctr + 1;
-     console.log('userlist ctr: ', ctr)
+    //remove the current user before returning into jsx
+     let userListReturn = userlist.filter((user) => user.firstname !== currentUser);
+
+
+
 
     return (        
-        !userlist?.length ? <CircularProgress /> : (                        
+        !userListReturn?.length ? <CircularProgress /> : (                        
                     <Grid container className={classes.mainContainer} component={Paper} >
                         <Typography className={classes.Label}>USER LIST</Typography> 
-                        {userlist.map((user) => (
-                            <Link key={user._id} className={classes.userLink} component={Paper} elevation={9} onClick={() => setParticipants({name: user.firstname, id: user._id})}>
-                              <Button className={classes.UserContent}> { user.firstname }  </Button>  
-                                <Button style={{ color: 'black' }} size="small">
-                                    <MoreHorizIcon fontSize="default" />
-                                </Button>       
-                          
-                            </Link>       
-                        ))}            
+                        {userListReturn.map((user) => (
+                                <Link key={user._id} className={classes.userLink} component={Paper} elevation={9} onClick={() => setParticipants({name: user.firstname, id: user._id})}>
+                                <Button className={classes.UserContent}> { user.firstname }  </Button>  
+                                    <Button style={{ color: 'black' }} size="small">
+                                        <MoreHorizIcon fontSize="default" />
+                                    </Button>       
+                                </Link>       
+                            ))}         
                     </Grid>              
             )
     );
- 
 }
 
 export default UserList

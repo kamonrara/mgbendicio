@@ -62,19 +62,14 @@ const Conversation = () => {
          let awts = fucking.split(',');
 
          { awts.map((d) => {
-          // console.log('withQoute: ', d)
-           let removeQoute = d.replace(/['"]+/g, '')
-          //  console.log('removeQoute: ', removeQoute)
 
+           let removeQoute = d.replace(/['"]+/g, '')
             if(removeQoute.includes('_id') === true) {
            
-              let finalResult = removeQoute.split("_id:").pop();
-              // console.log('create a logic that will handle this: ', conversation_data.conversation_with );
-             
-              // if conversation_data.conversation_with !== undefined
+              // let finalResult = removeQoute.split("_id:").pop();
+
               if(conversation_data.conversation_with !== undefined) {
                 // dispatch(getMessages(finalResult));
-         
               }
     
             }

@@ -5,10 +5,9 @@ import { commentPost } from '../../actions/posts';
 import useStyles from './styles';
 
 //functional react components
-const CommentSection = ( { post}  ) => {
+const CommentSection = ( { post }  ) => {
 
     const dispatch = useDispatch();
-
     const commentsRef = useRef();
     const classes = useStyles();
     const [comments, setComments] = useState(post?.comments);
@@ -49,7 +48,6 @@ const CommentSection = ( { post}  ) => {
                         label="Comment"
                         multiline
                         value={comment}
-                       
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <Button style={{ marginTop: '10px'}} fullWidth disabled={!comment}  color="primary" variant="contained" onClick={handleClick}>

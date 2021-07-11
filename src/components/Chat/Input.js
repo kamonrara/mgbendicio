@@ -4,9 +4,7 @@ import { Button, TextField, Box, Paper } from '@material-ui/core';
 import { createMessage } from '../../actions/chat/message';
 import { createConversationAndMessage } from '../../actions/chat/conversation';
 import { useDispatch, useSelector } from 'react-redux';
-import io from 'socket.io-client';
-
-let socket = io('localhost:5555');
+import { socket } from '../../service/socket'
 
 const useStyles = makeStyles({
 
@@ -36,6 +34,7 @@ const Input = () => {
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user?.result?._id;
+    const currentUser = user?.result?.firstname;
     const conversation_data = useSelector((state) => state.conversation_data);
     const [messsageData, setMessageData] = useState({ owner: '', conversationId : '', content: ''});
     const [keyPressCount, setKeyPressCount] = useState(0);
@@ -82,7 +81,7 @@ const Input = () => {
             });
 
 
-       //db entry: conversation and message are created <his/her first message sent>   
+       //db entry: conversation and message are created <user's first message sent ever>   
        } else if (conversation_data?.conversation_with !== undefined) {
 
          dispatch(createConversationAndMessage(
@@ -90,7 +89,7 @@ const Input = () => {
 
               conversation: {
                 participants: [userId, conversation_data?.conversation_with?.id], 
-                name: `${conversation_data?.conversation_with?.name}`
+                name: `${conversation_data?.conversation_with?.name} + ${currentUser}`
               },
               messages: {
                   owner: userId,

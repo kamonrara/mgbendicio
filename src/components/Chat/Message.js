@@ -6,7 +6,7 @@ import { getMessages } from '../../actions/chat/message';
 import { getConversation } from '../../actions/chat/conversation';
 import Messages from './Messages.js';
 import ReactScrollableFeed from 'react-scrollable-feed';
-import io from 'socket.io-client';
+import { socket } from '../../service/socket';
 
 const useStyles = makeStyles({
   
@@ -24,7 +24,6 @@ const useStyles = makeStyles({
   
   });
 
-  let socket = io('localhost:5555');
 
 const Message = () => {
     const classes = useStyles();

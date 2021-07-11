@@ -11,14 +11,7 @@ import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
 
 
-// import io from 'socket.io-client';
-// let socket;
-// const ENDPOINT = 'localhost:5555';
-
 const Post = ({ post, setCurrentId }) => {
-
-  // message debugger...
-  // console.log('[POST] ', post);
 
   //THIS SELECTOR WILL FIND THE UPDATED POST AND RE-RENDER THE UPDATED DATA..
   //const updatedPost = useSelector((state) => (state.posts.find((post) => post._id === post._id)));
@@ -32,7 +25,6 @@ const Post = ({ post, setCurrentId }) => {
   const [like, setLike] = useState(false);
   const [likes, setLikes] = useState(post?.likes);
 
-
   // useEffect(() => {
   //     console.log(
   //       '-[POST] 1ST useEffect ','\n',
@@ -41,7 +33,6 @@ const Post = ({ post, setCurrentId }) => {
   //       );
 
   // },[post]);
-
 
   // useEffect(() => {
 
@@ -59,7 +50,7 @@ const Post = ({ post, setCurrentId }) => {
   //   });
   // }, []); 
 
-  const userId = user?.result.googleId || user?.result?._id
+  const userId = user?.result.googleId || user?.result?._id;
   const hasLikedPost = post.likes.find((like) => like === userId);
 
   const handleLikesEvent = async () => {
@@ -67,10 +58,14 @@ const Post = ({ post, setCurrentId }) => {
 
           //did the current user like the post or not.
          if (hasLikedPost) {
+           //if so, unlike
           setLikes(post.likes.filter((id) => id !== userId));
+            console.log('[POST]-unlike');
 
          } else {
-            setLikes([ ...post.likes, userId]);
+           // add like
+          setLikes([ ...post.likes, userId]);
+            console.log('[POST]-like');
          }
   }
 
@@ -120,7 +115,6 @@ const Post = ({ post, setCurrentId }) => {
       <CardActions className={classes.cardActions}>
         {/* <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}> */}
         <Button size="small" color="primary" disabled={!user?.result} onClick={handleLikesEvent}>
-
           <Likes /> 
         </Button>
         {/* {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && ( */}
